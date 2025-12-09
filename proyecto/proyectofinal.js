@@ -1,199 +1,95 @@
-/**************************************
- SISTEMA SIMULADO - SEGURIDAD VIAL
- Ejecutar desde la consola del navegador
-**************************************/
-
-console.log("✅ Sistema de Seguridad Vial iniciado...");
-
-// ==============================
-// BASE DE DATOS SIMULADA
-// ==============================
+// ARRAYS SIMULADOS
 let usuarios = [];
 let cascos = [];
 let accidentes = [];
-let faq = [];
 
+// ================= CASCOS =================
+document.getElementById("formCasco").addEventListener("submit", function(e){
+    e.preventDefault();
 
-// ==============================
-// CONTADOR DE VISITAS
-// ==============================
-if(localStorage.visitas){
-    localStorage.visitas++;
-}else{
-    localStorage.visitas = 1;
-}
-console.log("👀 Visitas en este navegador:", localStorage.visitas);
+    let nombre = document.getElementById("cascoNombre").value;
+    let tipo = document.getElementById("cascoTipo").value;
+    let cert = document.getElementById("cascoCert").value;
 
-
-// ==============================
-// VALIDACIÓN CONTACTO
-// ==============================
-function validarContacto(nombre, correo, mensaje){
-    if(nombre === "" || correo === "" || mensaje === ""){
-        console.log("❌ Todos los campos son obligatorios");
-        return false;
+    if(nombre === "" || tipo === "" || cert === ""){
+        alert("Llena todos los campos");
+        return;
     }
-    if(!correo.includes("@")){
-        console.log("❌ Correo inválido");
-        return false;
+
+    cascos.push({nombre, tipo, cert});
+
+    let li = document.createElement("li");
+    li.textContent = nombre + " - " + tipo + " - " + cert;
+
+    document.getElementById("listaCascos").appendChild(li);
+    this.reset();
+});
+
+// ================= ACCIDENTES =================
+document.getElementById("formAccidente").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let fecha = accFecha.value;
+    let lugar = accLugar.value;
+    let desc = accDesc.value;
+
+    if(fecha === "" || lugar === "" || desc === ""){
+        alert("Llena todos los campos");
+        return;
     }
-    console.log("✅ Formulario válido");
-    return true;
-}
 
+    accidentes.push({fecha, lugar, desc});
 
-// ==============================
-// REGISTRO DE USUARIOS
-// ==============================
-function registrarUsuario(usuario, correo, password){
-    usuarios.push({usuario, correo, password});
-    console.log("✅ Usuario registrado:", usuario);
-}
+    let li = document.createElement("li");
+    li.textContent = fecha + " - " + lugar + " - " + desc;
+    listaAccidentes.appendChild(li);
 
+    this.reset();
+});
 
-// ==============================
-// LOGIN
-// ==============================
-function login(usuario, password){
-    let encontrado = usuarios.find(u => u.usuario === usuario && u.password === password);
+// ================= REGISTRO =================
+document.getElementById("formRegistro").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let nombre = regNombre.value;
+    let correo = regCorreo.value;
+    let pass = regPass.value;
+
+    usuarios.push({correo, pass});
+    alert("Usuario registrado ✅");
+
+    this.reset();
+});
+
+// ================= LOGIN =================
+document.getElementById("formLogin").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let correo = loginCorreo.value;
+    let pass = loginPass.value;
+
+    let encontrado = usuarios.find(u => u.correo === correo && u.pass === pass);
+
     if(encontrado){
-        console.log("✅ Bienvenido:", usuario);
+        alert("✅ Bienvenido");
     } else {
-        console.log("❌ Usuario o contraseña incorrectos");
+        alert("❌ Datos incorrectos");
     }
-}
+});
 
+// ================= CONTACTO =================
+document.getElementById("formContacto").addEventListener("submit", function(e){
+    e.preventDefault();
 
-// ==============================
-// CRUD DE CASCOS
-// ==============================
-function agregarCasco(marca, modelo, tipo, certificacion){
-    cascos.push({marca, modelo, tipo, certificacion});
-    console.log("✅ Casco agregado");
-}
+    let nombre = conNombre.value;
+    let correo = conCorreo.value;
+    let msg = conMsg.value;
 
-function mostrarCascos(){
-    console.table(cascos);
-}
-
-function editarCasco(indice, nuevaMarca){
-    if(cascos[indice]){
-        cascos[indice].marca = nuevaMarca;
-        console.log("✏️ Casco actualizado");
-    } else {
-        console.log("❌ No existe ese casco");
+    if(nombre === "" || correo === "" || msg === ""){
+        alert("Completa todo");
+        return;
     }
-}
 
-function eliminarCasco(indice){
-    if(cascos[indice]){
-        cascos.splice(indice, 1);
-        console.log("🗑️ Casco eliminado");
-    } else {
-        console.log("❌ Índice inválido");
-    }
-}
-
-
-// ==============================
-// CRUD ACCIDENTES
-// ==============================
-function agregarAccidente(fecha, lugar, causa, gravedad){
-    accidentes.push({fecha, lugar, causa, gravedad});
-    console.log("✅ Accidente registrado");
-}
-
-function mostrarAccidentes(){
-    console.table(accidentes);
-}
-
-function eliminarAccidente(indice){
-    if(accidentes[indice]){
-        accidentes.splice(indice,1);
-        console.log("🗑️ Accidente eliminado");
-    } else {
-        console.log("❌ Índice inválido");
-    }
-}
-
-
-// ==============================
-// CRUD FAQ
-// ==============================
-function agregarPregunta(pregunta, respuesta){
-    faq.push({pregunta, respuesta});
-    console.log("✅ Pregunta agregada");
-}
-
-function mostrarFAQ(){
-    console.table(faq);
-}
-
-function eliminarPregunta(indice){
-    if(faq[indice]){
-        faq.splice(indice,1);
-        console.log("🗑️ Pregunta eliminada");
-    } else {
-        console.log("❌ Índice inválido");
-    }
-}
-
-
-// ==============================
-// VALIDAR CONTRASEÑA
-// ==============================
-function validarPassword(password){
-    if(password.length < 6){
-        console.log("❌ Contraseña débil");
-    } else {
-        console.log("✅ Contraseña segura");
-    }
-}
-
-
-// ==============================
-// LIMPIAR TODO
-// ==============================
-function limpiarTodo(){
-    usuarios = [];
-    cascos = [];
-    accidentes = [];
-    faq = [];
-    console.log("🧹 Sistema reiniciado");
-}
-
-
-// ==============================
-// MENÚ DE AYUDA
-// ==============================
-function ayuda(){
-    console.log(`
-========= COMANDOS DISPONIBLES =========
-
-registrarUsuario("usuario","correo","pass")
-login("usuario","pass")
-
-agregarCasco("Marca","Modelo","Tipo","Certificación")
-mostrarCascos()
-editarCasco(0,"Nueva marca")
-eliminarCasco(0)
-
-agregarAccidente("fecha","lugar","causa","gravedad")
-mostrarAccidentes()
-eliminarAccidente(0)
-
-agregarPregunta("pregunta","respuesta")
-mostrarFAQ()
-eliminarPregunta(0)
-
-validarContacto("nombre","correo","mensaje")
-validarPassword("password")
-limpiarTodo()
-ayuda()
-
-======================================
-    `);
-}
-
-// MOSTRAR AYUDA AUTOMÁTICA
-ayuda();
+    alert("✅ Compromiso recibido");
+    this.reset();
+});
