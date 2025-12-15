@@ -1,95 +1,157 @@
-// ARRAYS SIMULADOS
-let usuarios = [];
-let cascos = [];
-let accidentes = [];
+// Mensaje inicial
+console.log("✅ Proyecto Seguridad Vial cargado correctamente");
 
-// ================= CASCOS =================
-document.getElementById("formCasco").addEventListener("submit", function(e){
-    e.preventDefault();
+// ================================
+// UTILIDADES GENERALES
+// ================================
+function mostrarMensaje(mensaje, tipo = "info") {
+  if (tipo === "error") {
+    console.error("❌ " + mensaje);
+  } else if (tipo === "warning") {
+    console.warn("⚠️ " + mensaje);
+  } else {
+    console.log("ℹ️ " + mensaje);
+  }
+}
 
-    let nombre = document.getElementById("cascoNombre").value;
-    let tipo = document.getElementById("cascoTipo").value;
-    let cert = document.getElementById("cascoCert").value;
+// ================================
+// VALIDACIONES
+// ================================
+function validarTexto(texto, campo) {
+  if (!texto || texto.trim() === "") {
+    mostrarMensaje("El campo '" + campo + "' está vacío", "error");
+    return false;
+  }
+  return true;
+}
 
-    if(nombre === "" || tipo === "" || cert === ""){
-        alert("Llena todos los campos");
-        return;
-    }
+function validarCorreo(correo) {
+  let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!regex.test(correo)) {
+    mostrarMensaje("Correo inválido: " + correo, "error");
+    return false;
+  }
+  return true;
+}
 
-    cascos.push({nombre, tipo, cert});
+function validarPassword(password) {
+  if (password.length < 6) {
+    mostrarMensaje("La contraseña debe tener al menos 6 caracteres", "warning");
+    return false;
+  }
+  return true;
+}
 
-    let li = document.createElement("li");
-    li.textContent = nombre + " - " + tipo + " - " + cert;
+// ================================
+// FORMULARIO DE CASCOS
+// ================================
+function guardarCasco(nombre, tipo, certificacion) {
+  mostrarMensaje("Intentando guardar casco...");
 
-    document.getElementById("listaCascos").appendChild(li);
-    this.reset();
-});
+  if (
+    !validarTexto(nombre, "Nombre del casco") ||
+    !validarTexto(tipo, "Tipo de casco") ||
+    !validarTexto(certificacion, "Certificación")
+  ) {
+    mostrarMensaje("No se pudo guardar el casco", "error");
+    return;
+  }
 
-// ================= ACCIDENTES =================
-document.getElementById("formAccidente").addEventListener("submit", function(e){
-    e.preventDefault();
+  console.log("🪖 Casco guardado:", {
+    nombre: nombre,
+    tipo: tipo,
+    certificacion: certificacion
+  });
 
-    let fecha = accFecha.value;
-    let lugar = accLugar.value;
-    let desc = accDesc.value;
+  mostrarMensaje("Casco registrado correctamente");
+}
 
-    if(fecha === "" || lugar === "" || desc === ""){
-        alert("Llena todos los campos");
-        return;
-    }
+// ================================
+// FORMULARIO DE ACCIDENTES
+// ================================
+function registrarAccidente(fecha, lugar, descripcion) {
+  mostrarMensaje("Registrando accidente...");
 
-    accidentes.push({fecha, lugar, desc});
+  if (
+    !validarTexto(fecha, "Fecha") ||
+    !validarTexto(lugar, "Lugar") ||
+    !validarTexto(descripcion, "Descripción")
+  ) {
+    mostrarMensaje("Error al registrar accidente", "error");
+    return;
+  }
 
-    let li = document.createElement("li");
-    li.textContent = fecha + " - " + lugar + " - " + desc;
-    listaAccidentes.appendChild(li);
+  console.log("🚨 Accidente registrado:", {
+    fecha: fecha,
+    lugar: lugar,
+    descripcion: descripcion
+  });
 
-    this.reset();
-});
+  mostrarMensaje("Accidente registrado con éxito");
+}
 
-// ================= REGISTRO =================
-document.getElementById("formRegistro").addEventListener("submit", function(e){
-    e.preventDefault();
+// ================================
+// LOGIN
+// ================================
+function login(correo, password) {
+  mostrarMensaje("Intentando iniciar sesión...");
 
-    let nombre = regNombre.value;
-    let correo = regCorreo.value;
-    let pass = regPass.value;
+  if (!validarCorreo(correo) || !validarPassword(password)) {
+    mostrarMensaje("Login fallido", "error");
+    return;
+  }
 
-    usuarios.push({correo, pass});
-    alert("Usuario registrado ✅");
+  // Simulación de error del sistema
+  if (correo === "admin@error.com") {
+    mostrarMensaje("Error del servidor (simulado)", "error");
+    return;
+  }
 
-    this.reset();
-});
+  console.log("👤 Usuario autenticado:", correo);
+  mostrarMensaje("Inicio de sesión exitoso");
+}
 
-// ================= LOGIN =================
-document.getElementById("formLogin").addEventListener("submit", function(e){
-    e.preventDefault();
+// ================================
+// REGISTRO
+// ================================
+function registrarUsuario(nombre, correo, password) {
+  mostrarMensaje("Registrando usuario...");
 
-    let correo = loginCorreo.value;
-    let pass = loginPass.value;
+  if (
+    !validarTexto(nombre, "Nombre") ||
+    !validarCorreo(correo) ||
+    !validarPassword(password)
+  ) {
+    mostrarMensaje("Registro fallido", "error");
+    return;
+  }
 
-    let encontrado = usuarios.find(u => u.correo === correo && u.pass === pass);
+  console.log("📝 Usuario registrado:", {
+    nombre: nombre,
+    correo: correo
+  });
 
-    if(encontrado){
-        alert("✅ Bienvenido");
-    } else {
-        alert("❌ Datos incorrectos");
-    }
-});
+  mostrarMensaje("Usuario registrado correctamente");
+}
 
-// ================= CONTACTO =================
-document.getElementById("formContacto").addEventListener("submit", function(e){
-    e.preventDefault();
+// ================================
+// SIMULACIÓN DE ERRORES DEL HTML
+// ================================
+function simularErrorHTML() {
+  mostrarMensaje("Simulando fallo del HTML...", "warning");
 
-    let nombre = conNombre.value;
-    let correo = conCorreo.value;
-    let msg = conMsg.value;
+  let elemento = document.getElementById("elementoInexistente");
+  if (!elemento) {
+    mostrarMensaje("Elemento HTML no encontrado", "error");
+  }
+}
 
-    if(nombre === "" || correo === "" || msg === ""){
-        alert("Completa todo");
-        return;
-    }
-
-    alert("✅ Compromiso recibido");
-    this.reset();
-});
+// ================================
+// PRUEBAS AUTOMÁTICAS EN CONSOLA
+// ================================
+console.log("🧪 Ejecuta estas pruebas desde la consola:");
+console.log("guardarCasco('', 'Integral', 'DOT')");
+console.log("registrarAccidente('2025-01-01', '', 'Choque')");
+console.log("login('correo@mal', '123')");
+console.log("registrarUsuario('Juan', 'juan@mail.com', '123')");
+console.log("simularErrorHTML()");
