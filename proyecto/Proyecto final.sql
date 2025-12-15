@@ -1,3 +1,4 @@
+drop database if exists proyectoFinal;
 create database proyectoFinal;
 use proyectoFinal;
 create table Cascos(
@@ -25,7 +26,5 @@ create table Accidentes(
 create table Preguntas_frecuentes(
 	id int primary key,
     pregunta varchar(100),
-    respuesta varchar(500),
-    categoria varchar(100),
-    orden varchar(100)
+    respuesta varchar(500)
 );
