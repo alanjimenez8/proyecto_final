@@ -6,7 +6,7 @@ create table Cascos(
     marca varchar(50),
     modelo varchar(50),
     tipo varchar(50),
-    certificacion varchar(100),
+    certificacion varchar(50),
     descripcion varchar(200),
     precio_aprox double,
     imagen mediumblob,
