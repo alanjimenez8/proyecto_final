@@ -43,9 +43,24 @@ if (isset($_POST['registrar'])) {
     <a href="registro.php">Registro</a> |
     <a href="accidentes_admin.php">accidentes_admin</a> 
   </nav>
+  <nav>
+    <a href="accidentes_admin.php">accidentes</a> 
+    <a href="cascos_admin.php">Cascos</a> 
+    <a href="preguntas_admin.php">Preguntas</a> 
+  </nav>
+
+
 <section id="accidentes">
     <h2>Accidentes en Motocicleta</h2>
-    <img src="https://www.univision.com/_next/image?url=https%3A%2F%2Fst1.uvnimg.com%2F4a%2Fba%2F7a6a563b498fb164b9637683ebf4%2Faccidente.jpg&w=1280&q=75"/>
+
+    <h3>Registrar Accidente</h3>
+    <form method="POST">
+        <input type="date" name="fecha" required><br><br>
+        <input name="lugar" placeholder="Lugar" required><br><br>
+        <input name="descripcion" placeholder="Descripción" required><br><br>
+        <button type="submit" name="registrar">Registrar</button>
+    </form>
+
     <h3>Lista de Accidentes</h3>
     <ul>
         <?php

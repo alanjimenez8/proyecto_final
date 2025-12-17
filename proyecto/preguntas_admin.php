@@ -10,11 +10,10 @@ if ($conn->connect_error) {
 }
 
 if (isset($_POST['registrar'])) {
-    $fecha = $_POST['fecha'];
-    $lugar = $_POST['lugar'];
-    $descripcion = $_POST['descripcion'];
-    $sqlInsert = "INSERT INTO Accidentes (fecha, lugar, descripcion)
-    VALUES ('$fecha', '$lugar', '$descripcion')";
+    $Pregunta=$_POST['Pregunta'];
+    $Respuesta=$_POST['Respuesta'];
+    $sqlInsert = "INSERT INTO Preguntas_frecuentes (pregunta,respuesta)
+    VALUES ('$Pregunta','$Respuesta')";
     $conn->query($sqlInsert);
 }
 ?>
@@ -43,21 +42,34 @@ if (isset($_POST['registrar'])) {
     <a href="registro.php">Registro</a> |
     <a href="accidentes_admin.php">accidentes_admin</a> 
   </nav>
+  <nav>
+    <a href="accidentes_admin.php">accidentes</a> 
+    <a href="cascos_admin.php">Cascos</a> 
+    <a href="preguntas_admin.php">Preguntas</a> 
+  </nav>
+
+
 <section id="accidentes">
-    <h2>Accidentes en Motocicleta</h2>
-    <img src="https://www.univision.com/_next/image?url=https%3A%2F%2Fst1.uvnimg.com%2F4a%2Fba%2F7a6a563b498fb164b9637683ebf4%2Faccidente.jpg&w=1280&q=75"/>
-    <h3>Lista de Accidentes</h3>
+    <h2>Preguntas frecuentes</h2>
+
+    <h3>Registrar Pregunta</h3>
+    <form method="POST">
+        <input name="Pregunta" placeholder="Pregunta" required><br><br>
+        <input name="Respuesta" placeholder="Respuesta" required><br><br>
+        <button type="submit" name="registrar">Registrar</button>
+    </form>
+
+    <h3>Lista de Preguntas Respuesta</h3>
     <ul>
         <?php
-        $sqlAccidentes = "SELECT fecha, lugar, descripcion FROM Accidentes";
+        $sqlAccidentes = "SELECT pregunta, respuesta FROM Preguntas_frecuentes";
         $resultado = $conn->query($sqlAccidentes);
 
         if ($resultado && $resultado->num_rows > 0) {
             while ($fila = $resultado->fetch_assoc()) {
                 echo "<li>";
-                echo "<strong>".$fila['fecha']."</strong> - ";
-                echo $fila['lugar']." - ";
-                echo $fila['descripcion'];
+                echo "<strong>".$fila['pregunta']."</strong> - ";
+                echo $fila['respuesta']." - ";
                 echo "</li>";
             }
         } else {

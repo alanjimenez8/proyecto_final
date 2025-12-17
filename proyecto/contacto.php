@@ -27,7 +27,8 @@ $conn = new mysqli($host, $usuario, $clave, $base);
     <a href="faq..php">FAQ</a> |
     <a href="contacto.php">Contacto</a> |
     <a href="login.php">Login</a> |
-    <a href="registro.php">Registro</a>
+    <a href="registro.php">Registro</a> |
+    <a href="accidentes_admin.php">accidentes_admin</a> 
   </nav>
   <section id="contacto">
     <h2>Contacto / Compromiso de Conducción Segura</h2>
